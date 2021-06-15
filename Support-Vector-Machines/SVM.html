@@ -1,0 +1,35 @@
+<h1 id="theory-and-intuition">Theory and Intuition</h1>
+<p>First Hyperplanes and margins are discussed and incremental complexity in classifiers is shown, finally ending at Support Vector Machines</p>
+<ul>
+<li>Maximum Margin Classifier</li>
+<li>Support Vector Classifier</li>
+<li>Support Vector Machines</li>
+</ul>
+<h2 id="hyperplanes-and-margins">Hyperplanes And Margins</h2>
+<p>Understanding hyperplanes and margin classifiers in fundamental to understanding SVM</p>
+<h3 id="what-is-hyperplane">What is Hyperplane?</h3>
+<p>In a N-dimensional space, a hyperplane is a flat affine subspace of hyperplane dimension N-1. For ex: * For 1-D, Hyperplane is a single point * For 2-D, Hyperplane is a line and so on</p>
+<h3 id="why-we-bother-with-hyperplanes">Why we bother with hyperplanes?</h3>
+<p>The main idea is to use hyperplane to create separation between classes (fancy way of saying different types of data points). Our hope is such a hyperplane exists which can bifurcate differencing points in the space</p>
+<h3 id="baby-chick-example">Baby Chick Example</h3>
+<p>1-D dataset of baby chicks (male or female) is plotted on a line, with maleo on RHS and female on LHS. Visually, data is easily separable.</p>
+<p>I this dataset, a single point in the middle of dataset can easily separate both datasets, but issue is <strong>placing of the point</strong></p>
+<p><strong>Where to Place the Point?</strong> Many points exists which can perfectly separate the points. We use a separator that maxifies the margin between hyperplane and first instance of each class. Such an hyperplane which maximises the margins is called <strong>Maximum Margin Classifier</strong></p>
+<p>Same example can be applied in 2-D space, where classes are separated by line, but there are <span class="math inline">inf </span> lines which can separate. Again, we use maximise the margin (distance) between line and data points (each data point 2D vector here)</p>
+<h3 id="unseparable-classes">Unseparable Classes?</h3>
+<p>NOt all classes will be easily separable (at least visually) showin in Fig. A single point will mess up at least one class, so we need to chose our poison. Our decision is guided by Bias-Variance Tradeoff</p>
+<p><strong>Bias Variance Tradeoff</strong> Example _ and _ show how one can overfit hard to one particular dataset (however no. of point misclassified is same i.e. 1 in both cases). But it is obvious our classifier skews heavily female in _ and male in _. This can bite us in ass when we decide to test or deploy the model</p>
+<p>This is called <strong>high variance fit</strong>. In example _, it was “picking too much noise from female data” and thus, overfitting it or had a high variance w.r.t female data points. We can introduce <strong>bias</strong> for more logical classifier, even at the cost of training accuracy. This misclassification doing margin is called a <em><em>soft margin</em></em>, which allows for miscallsification within itself. We manipulate soft margin with introduction of bias.</p>
+<p><strong>But again, there are multiple threshold splits of soft margin, and </strong>Maximum Margin** concept is already applied, so what else we can do to get optimum <em>soft margin</em>.** The answer lies in level of misclassification to be allowed. With <em>misclassification</em> as our north-star, we perform <em>Cross Validation</em> to figure out best <em>soft margin</em> amongst all.</p>
+<h3 id="soft-margin-demonstraion">Soft Margin Demonstraion</h3>
+<p>Maximum margin classifer in this example skews heavily female, due to picking “too much variance or too much noie” from the female set. The highlighted figure _ shows Male classification zone is too larger than what seems necessary, and it can cause problems in test set. So, there is need to soften the margin we got from <em>Maximum Margin Classifer</em></p>
+<p>So we introduce a new classifier, that allows for <em>soft margins</em>, called a <em>Support Vector Classifier</em></p>
+<p><strong>What happens when Hyperplane theory falls on it face?</strong> Cases _ and _ demonstrate the respective hyperplanes (point and lines resp.) fail here. Using multiple points can solve the issue in case <em>, but in </em>, group of lines is not gonna help much</p>
+<p><em>In general, higher dimesions make it difficult to use multiple hyperplanes</em></p>
+<p>And that’s the limitation of <em>Support Vector Classifier</em> and rationale to move on to <em>Suppport Vector Machines</em></p>
+<div id="fig:1" class="fignos">
+<figure>
+<img src="wine.jpg" alt="Figure 1: This is caption " /><figcaption aria-hidden="true"><span>Figure 1:</span> This is caption </figcaption>
+</figure>
+</div>
+<p>See figure <a href="#fig:1">1</a></p>

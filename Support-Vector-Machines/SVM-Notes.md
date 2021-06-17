@@ -2,6 +2,7 @@
 author: Tanmay
 data:
 title: SVM Notes
+output: html_document
 ---
 
 # Theory and Intuition
@@ -18,7 +19,6 @@ Understanding hyperplanes and margin classifiers in fundamental to understanding
 In a N-dimensional space, a hyperplane is a flat affine subspace of hyperplane dimension N-1. For ex:
 
 * For 1-D, Hyperplane is a single point
-* For 2-D, Hyperplane is a line and so on
 
 ### Why we bother with hyperplanes?
 The main idea is to use hyperplane to create separation between classes (fancy way of saying different types of data points). Our hope is such a hyperplane exists which can bifurcate differencing points in the space
@@ -89,10 +89,13 @@ Paper: Cortnes (1995)
 
 For a feature space defined by two features $x1$ and $x2$, a hyperplane is defined as:
 
-$$\beta_0 + \beta_1X_1 + \beta_2X_2 = 0 \tag{1}$${#eq:2D_hyperplane}
+$$\begin{align}
+\beta_0 + \beta_1X_1 + \beta_2X_2 = 0 
+\end{align}$${#eq:2D_hyperplane}
 
 For feature set of $p$ dimension, $X = \{X_1,X_2,\dots,X_p\}$, a hyperplane is defined as:
-$$\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0 \tag{2}$${#eq:pD_hyperplane}
+$$\begin{align}
+\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0 \end{align}$${#eq:pD_hyperplane}
 
 **Separating Hyperplanes**  
 So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes *seaparate* the classes. Now we try to define the criteria for this separation
@@ -192,9 +195,14 @@ plot_svm_boundary(model,X,y)
 model = SVC(kernel = 'rbf',C=1)
 model.fit(X,y)
 plt.figure()
-plot_svm_boundary(model,X,y)
+plot+
 ```
 
-```python
 
-```
+$$
+f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz
+\tag{1}
+\label{eq:1}
+$$
+
+This is $\ref{eq:1}$

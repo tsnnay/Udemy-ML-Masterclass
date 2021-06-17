@@ -1,8 +1,7 @@
 ---
 author: Tanmay
 data:
-Title: SVM Notes
-
+title: SVM Notes
 ---
 
 # Theory and Intuition
@@ -17,6 +16,7 @@ Understanding hyperplanes and margin classifiers in fundamental to understanding
 
 ### What is Hyperplane?
 In a N-dimensional space, a hyperplane is a flat affine subspace of hyperplane dimension N-1. For ex:
+
 * For 1-D, Hyperplane is a single point
 * For 2-D, Hyperplane is a line and so on
 
@@ -30,10 +30,10 @@ I this dataset, a single point in the middle of dataset can easily separate both
 
 **Where to Place the Point?**  
 
-
 ![Maximum Margin Classifer](img\max-margin.png){#fig:max_margin}
 
 Same example can be applied in 2-D space, where classes are separated by line, but there are $\inf$ lines which can separate. Again, we use maximise the margin (distance) between line and data points (each data point 2D vector here)
+
 
 ### Unseparable Classes?
 NOt all classes will be easily separable (at least visually) showin in Fig. A single point will mess up at least one class, so we need to chose our poison. Our decision is guided by Bias-Variance Tradeoff
@@ -65,3 +65,136 @@ Cases @fig:bad-hyperplane-1d and @fig:bad-hyperplane-2d demonstrate the respecti
 > In general, higher dimesions make it difficult to use multiple hyperplanes*
 
 And that's the limitation of *Support Vector Classifier* and rationale to move on to *Suppport Vector Machines*
+
+
+## Kernels
+We will move beyond maximum margin classifier or support vector classifier using soft margin to *support vector machines*.  
+It is kernel operation which works by projecting features to higher dimension. Revisiting example in +@fig:bad-hyperplane-1d, where hyperplane classifers (maximum and soft) fail.  
+We project all the features and project them in different dimension (like polynomial projection in +@fig:poly_projection). Here, features are projected in $X^2$ dimensino and a classifier is added to classify it.  
+
+For +@fig:bad-hyperplane-2d, we project 2D space in 3D as shown in +@fig:3d_projection, and use classifier.
+
+![Projecting 1-D features to $X^2$ space](img\polynomial_projection.PNG){#fig:poly_projection}
+
+## Kernel Trick & Mathematics
+The above example is not actually a kernel trick, since it is expensive to tranform everything into higher dimensional space. We use dot products for this projection which is computationally less expensive
+
+![Projecting 2D space to 3D](img\3d_projection.PNG){#fig:3d_projection}  
+
+Reading reference: Chapter 9 ISLR
+Paper: Cortnes (1995)
+
+
+### Hyperplanes Defined
+
+For a feature space defined by two features $x1$ and $x2$, a hyperplane is defined as:
+
+$$\beta_0 + \beta_1X_1 + \beta_2X_2 = 0 \tag{1}$${#eq:2D_hyperplane}
+
+For feature set of $p$ dimension, $X = \{X_1,X_2,\dots,X_p\}$, a hyperplane is defined as:
+$$\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0 \tag{2}$${#eq:pD_hyperplane}
+
+**Separating Hyperplanes**  
+So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes *seaparate* the classes. Now we try to define the criteria for this separation
+
+Refer to mathematical details in 9.3.2 ISLR
+
+
+# SVM Classification
+
+
+Using Scikit learn code to solve classification problem
+
+```python
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+```
+
+```python
+%matplotlib notebook 
+```
+
+```python
+import numpy as np 
+```
+
+A study is used where a mouse if fed medicine, and check whether he is still infected or not
+
+```python
+df = pd.read_csv('../DATA/mouse_viral_study.csv')
+df.head()
+```
+
+```python
+sns.scatterplot(x = 'Med_1_mL',y = 'Med_2_mL',hue = 'Virus Present',
+               data = df) 
+```
+
+## Create a hyperplane 
+
+```python
+plt.show()
+```
+
+```python
+x = np.linspace(0,10,100)
+m = -1 
+b = 11
+y = m*x + b
+plt.plot(x,y,'black')
+```
+
+Here, we plot a line on intuition. But how to get mathemetically optimised classifer?
+
+```python
+from sklearn.svm import SVC
+```
+
+```python
+#SVC?
+```
+
+```python
+y = df['Virus Present']
+X = df.drop('Virus Present',axis = 1)
+```
+
+```python
+model = SVC(kernel = 'linear',C = 1000)
+model.fit(X,y)
+```
+
+```python
+from svm_margin_plot import plot_svm_boundary
+```
+
+```python
+plt.figure()
+plot_svm_boundary(model,X,y)
+```
+
+Next, we will use a small C, which will allow lot of misclassification
+
+```python
+model = SVC(kernel = 'linear',C = 0.05)
+model.fit(X,y)
+plt.figure()
+plot_svm_boundary(model,X,y)
+```
+
+`C` is heavily depdent on data, so we will need to do some cross-validation search to find optimal `C`
+
+
+## RBF Kernel
+
+```python
+model = SVC(kernel = 'rbf',C=1)
+model.fit(X,y)
+plt.figure()
+plot_svm_boundary(model,X,y)
+```
+
+```python
+
+```

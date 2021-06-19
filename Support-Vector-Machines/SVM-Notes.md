@@ -1,11 +1,13 @@
 ---
+title: SVM Notes
 author: Tanmay
 data:
-title: SVM Notes
 output: html_document
+linkcolor: blue
 ---
 
 # Theory and Intuition
+
 First Hyperplanes and margins are discussed and incremental complexity in classifiers is shown, finally ending at Support Vector Machines
 
 * Maximum Margin Classifier
@@ -87,17 +89,21 @@ Paper: Cortnes (1995)
 
 ### Hyperplanes Defined
 
-For a feature space defined by two features $x1$ and $x2$, a hyperplane is defined as:
-
-$$\begin{align}
+For a feature space defined by two features $x_1$ and $x_2$, a hyperplane is defined as:
+$$
+\begin{align}
 \beta_0 + \beta_1X_1 + \beta_2X_2 = 0 
+\label{eq:2D_hyperplane}
 \end{align}$${#eq:2D_hyperplane}
 
 For feature set of $p$ dimension, $X = \{X_1,X_2,\dots,X_p\}$, a hyperplane is defined as:
-$$\begin{align}
-\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0 \end{align}$${#eq:pD_hyperplane}
+$$
+\begin{align}
+\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0
+\label{eq:pD_hyperplane}
+\end{align}$${#eq:pD_hyperplane}
 
-**Separating Hyperplanes**  
+#### Separating Hyperplanes  
 So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes *seaparate* the classes. Now we try to define the criteria for this separation
 
 Refer to mathematical details in 9.3.2 ISLR
@@ -198,11 +204,4 @@ plt.figure()
 plot+
 ```
 
-
-$$
-f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz
-\tag{1}
-\label{eq:1}
-$$
-
-This is $\ref{eq:1}$
+Is this sustainaible?

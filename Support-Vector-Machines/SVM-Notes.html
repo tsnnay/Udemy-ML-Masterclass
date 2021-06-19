@@ -50,10 +50,10 @@
       margin: 1em 0;
     }
     a {
-      color: #1a1a1a;
+      color: blue;
     }
     a:visited {
-      color: #1a1a1a;
+      color: blue;
     }
     img {
       max-width: 100%;
@@ -237,7 +237,6 @@
 <p>In a N-dimensional space, a hyperplane is a flat affine subspace of hyperplane dimension N-1. For ex:</p>
 <ul>
 <li>For 1-D, Hyperplane is a single point</li>
-<li>For 2-D, Hyperplane is a line and so on</li>
 </ul>
 <h3 id="why-we-bother-with-hyperplanes">Why we bother with hyperplanes?</h3>
 <p>The main idea is to use hyperplane to create separation between classes (fancy way of saying different types of data points). Our hope is such a hyperplane exists which can bifurcate differencing points in the space</p>
@@ -303,14 +302,18 @@ We project all the features and project them in different dimension (like polyno
 </div>
 <p>Reading reference: Chapter 9 ISLR Paper: Cortnes (1995)</p>
 <h3 id="hyperplanes-defined">Hyperplanes Defined</h3>
-<p>For a feature space defined by two features <span class="math inline">\(x1\)</span> and <span class="math inline">\(x2\)</span>, a hyperplane is defined as:</p>
-<p><span id="eq:2D_hyperplane" class="eqnos"><span class="math display">\[\begin{align}
+<p>For a feature space defined by two features <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, a hyperplane is defined as: <span id="eq:2D_hyperplane" class="eqnos"><span class="math display">\[
+\begin{align}
 \beta_0 + \beta_1X_1 + \beta_2X_2 = 0 
+\label{eq:2D_hyperplane}
 \end{align}\]</span><span class="eqnos-number">(1)</span></span></p>
-<p>For feature set of <span class="math inline">\(p\)</span> dimension, <span class="math inline">\(X = \{X_1,X_2,\dots,X_p\}\)</span>, a hyperplane is defined as: <span id="eq:pD_hyperplane" class="eqnos"><span class="math display">\[\begin{align}
-\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0 \end{align}\]</span><span class="eqnos-number">(2)</span></span></p>
-<p><strong>Separating Hyperplanes</strong><br />
-So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes <em>seaparate</em> the classes. Now we try to define the criteria for this separation</p>
+<p>For feature set of <span class="math inline">\(p\)</span> dimension, <span class="math inline">\(X = \{X_1,X_2,\dots,X_p\}\)</span>, a hyperplane is defined as: <span id="eq:pD_hyperplane" class="eqnos"><span class="math display">\[
+\begin{align}
+\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0
+\label{eq:pD_hyperplane}
+\end{align}\]</span><span class="eqnos-number">(2)</span></span></p>
+<h4 id="separating-hyperplanes">Separating Hyperplanes</h4>
+<p>So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes <em>seaparate</em> the classes. Now we try to define the criteria for this separation</p>
 <p>Refer to mathematical details in 9.3.2 ISLR</p>
 <h1 id="svm-classification">SVM Classification</h1>
 <p>Using Scikit learn code to solve classification problem</p>
@@ -352,9 +355,6 @@ So far, we have defined hyperplanes and what they are. But in context of SVM, th
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model.fit(X,y)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plot<span class="op">+</span></span></code></pre></div>
-<p><span id="eq:myeq" class="eqnos"><span class="math display">\[\begin{align}
-\beta-1 &amp;=0
-\end{align}\]</span><span class="eqnos-number">(3)</span></span></p>
-<p>eq. <a href="#eq:2D_hyperplane">1</a> is wrongly numbered.</p>
+<p>Is this sustainaible?</p>
 </body>
 </html>

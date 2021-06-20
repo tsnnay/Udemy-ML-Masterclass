@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Tanmay" />
+  <title>SVM Notes</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+  <!-- pandoc-eqnos: equation style -->
+  <style>
+    .eqnos { display: inline-block; position: relative; width: 100%; }
+    .eqnos br { display: none; }
+    .eqnos-number { position: absolute; right: 0em; top: 50%; line-height: 0; }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SVM Notes</h1>
+<p class="author">Tanmay</p>
+</header>
+<h2 id="theory-and-intuition">Theory and Intuition</h2>
+<p>First Hyperplanes and margins are discussed and incremental complexity in classifiers is shown, finally ending at Support Vector Machines</p>
+<ul>
+<li>Maximum Margin Classifier</li>
+<li>Support Vector Classifier</li>
+<li>Support Vector Machines</li>
+</ul>
+<h2 id="hyperplanes-and-margins">Hyperplanes And Margins</h2>
+<p>Understanding hyperplanes and margin classifiers in fundamental to understanding SVM</p>
+<h3 id="what-is-hyperplane">What is Hyperplane?</h3>
+<p>In a N-dimensional space, a hyperplane is a flat affine subspace of hyperplane dimension N-1. For ex:</p>
+<ul>
+<li>For 1-D, Hyperplane is a single point</li>
+</ul>
+<h3 id="why-we-bother-with-hyperplanes">Why we bother with hyperplanes?</h3>
+<p>The main idea is to use hyperplane to create separation between classes (fancy way of saying different types of data points). Our hope is such a hyperplane exists which can bifurcate differencing points in the space</p>
+<h3 id="baby-chick-example">Baby Chick Example</h3>
+<p>1-D dataset of baby chicks (male or female) is plotted on a line in , with male on RHS and female on LHS. Visually, data is easily separable.</p>
+<p>I this dataset, a single point in the middle of dataset can easily separate both datasets, but issue is <strong>placing of the point</strong></p>
+<p><strong>Where to Place the Point?</strong></p>
+<figure>
+<img src="img\max-margin.png" alt="Maximum Margin Classifer " /><figcaption aria-hidden="true">Maximum Margin Classifer </figcaption>
+</figure>
+<p>Same example can be applied in 2-D space, where classes are separated by line, but there are <span class="math inline">\(\inf\)</span> lines which can separate. Again, we use maximise the margin (distance) between line and data points (each data point 2D vector here).</p>
+<h3 id="unseparable-classes">Unseparable Classes?</h3>
+<p>NOt all classes will be easily separable (at least visually) showin in Fig. A single point will mess up at least one class, so we need to chose our poison. Our decision is guided by Bias-Variance Tradeoff</p>
+<p><strong>Bias Variance Tradeoff</strong> Example <a href="#fig:unbalanced_margin">1</a> and <a href="#fig:skewed_margin_2d">2</a> show how one can overfit hard to one particular dataset (however no. of point misclassified is same i.e. 1 in both cases). But it is obvious our maximum margin classifier skews heavily female in <a href="#fig:unbalanced_margin">1</a> and in <a href="#fig:skewed_margin_2d">2</a>. This can bite us in ass when we decide to test or deploy the model</p>
+<div id="fig:unbalanced_margin" class="fignos">
+<figure>
+<img src="img\soft-margin=classifer1.PNG" alt="Figure 1: Variance Fit to Unbalanced Data" /><figcaption aria-hidden="true"><span>Figure 1:</span> Variance Fit to Unbalanced Data</figcaption>
+</figure>
+</div>
+<p>This is called <strong>high variance fit</strong>. In example <a href="#fig:unbalanced_margin">1</a>, it was “picking too much noise from female data” and thus, overfitting it or had a high variance w.r.t female data points. We can introduce <strong>bias</strong> for more logical classifier, even at the cost of training accuracy. This misclassification doing margin is called a <em><em>soft margin</em></em>, which allows for miscallsification within itself. We manipulate soft margin with introduction of bias.</p>
+<blockquote>
+<p>But again, there are multiple threshold splits of soft margin, and <strong>Maximum Margin</strong> concept is already applied, so what else we can do to get optimum <em>soft margin</em>.</p>
+</blockquote>
+<p>The answer lies in level of misclassification to be allowed. With <em>misclassification</em> as our north-star, we perform <em>Cross Validation</em> to figure out best <em>soft margin</em> amongst all.</p>
+<h3 id="soft-margin-demonstraion">Soft Margin Demonstraion</h3>
+<p>Maximum margin classifer in this example skews heavily female, due to picking “too much variance or too much noie” from the female set. The highlighted figure <a href="#fig:skewed_margin_2d">2</a> shows Male classification zone is too larger than what seems necessary, and it can cause problems in test set. So, there is need to soften the margin we got from <em>Maximum Margin Classifer</em></p>
+<div id="fig:skewed_margin_2d" class="fignos">
+<figure>
+<img src="img\skewed-soft-margin-2d.png" alt="Figure 2: Skewed Max. Margin Classifier 2D" /><figcaption aria-hidden="true"><span>Figure 2:</span> Skewed Max. Margin Classifier 2D</figcaption>
+</figure>
+</div>
+<p>So we introduce a new classifier, that allows for <em>soft margins</em>, called a <em>Support Vector Classifier</em></p>
+<p><strong>What happens when Hyperplane theory falls on it face?</strong> Cases <a href="#fig:bad-hyperplane-1d">3</a> and <a href="#fig:bad-hyperplane-2d">4</a> demonstrate the respective hyperplanes (point and lines resp.) fail here. Using multiple points can solve the issue in <a href="#fig:bad-hyperplane-1d">3</a>, but in <a href="#fig:bad-hyperplane-2d">4</a>, group of lines is not gonna help much</p>
+<div id="fig:bad-hyperplane-1d" class="fignos">
+<figure>
+<img src="img\poor-hyperplane-classification-1d.PNG" alt="Figure 3: Poor Classification with Hyperplane" /><figcaption aria-hidden="true"><span>Figure 3:</span> Poor Classification with Hyperplane</figcaption>
+</figure>
+</div>
+<div id="fig:bad-hyperplane-2d" class="fignos">
+<figure>
+<img src="img\poor-hyperplane-classification-2d.PNG" alt="Figure 4: Poor Classification with Hyperplane" /><figcaption aria-hidden="true"><span>Figure 4:</span> Poor Classification with Hyperplane</figcaption>
+</figure>
+</div>
+<blockquote>
+<p>In general, higher dimesions make it difficult to use multiple hyperplanes*</p>
+</blockquote>
+<p>And that’s the limitation of <em>Support Vector Classifier</em> and rationale to move on to <em>Suppport Vector Machines</em></p>
+<h2 id="kernels">Kernels</h2>
+<p>We will move beyond maximum margin classifier or support vector classifier using soft margin to <em>support vector machines</em>.<br />
+It is kernel operation which works by projecting features to higher dimension. Revisiting example in fig. <a href="#fig:bad-hyperplane-1d">3</a>, where hyperplane classifers (maximum and soft) fail.<br />
+We project all the features and project them in different dimension (like polynomial projection in fig. <a href="#fig:poly_projection">5</a>). Here, features are projected in <span class="math inline">\(X^2\)</span> dimensino and a classifier is added to classify it.</p>
+<p>For fig. <a href="#fig:bad-hyperplane-2d">4</a>, we project 2D space in 3D as shown in fig. <a href="#fig:3d_projection">6</a>, and use classifier.</p>
+<div id="fig:poly_projection" class="fignos">
+<figure>
+<img src="img\polynomial_projection.PNG" alt="Figure 5: Projecting 1-D features to X^2 space" /><figcaption aria-hidden="true"><span>Figure 5:</span> Projecting 1-D features to <span class="math inline">\(X^2\)</span> space</figcaption>
+</figure>
+</div>
+<h2 id="kernel-trick-mathematics">Kernel Trick &amp; Mathematics</h2>
+<p>The above example is not actually a kernel trick, since it is expensive to tranform everything into higher dimensional space. We use dot products for this projection which is computationally less expensive</p>
+<div id="fig:3d_projection" class="fignos">
+<figure>
+<img src="img\3d_projection.PNG" alt="Figure 6: Projecting 2D space to 3D" /><figcaption aria-hidden="true"><span>Figure 6:</span> Projecting 2D space to 3D</figcaption>
+</figure>
+</div>
+<p>Reading reference: Chapter 9 ISLR Paper: Cortnes (1995)</p>
+<h3 id="hyperplanes-defined">Hyperplanes Defined</h3>
+<p>For a feature space defined by two features <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, a hyperplane is defined as:</p>
+<p><span id="eq:2D_hyperplane" class="eqnos"><span class="math display">\[
+\begin{aligned}
+\beta_0 + \beta_1X_1 + \beta_2X_2 = 0
+\end{aligned}
+\]</span><span class="eqnos-number">(1)</span></span></p>
+<p>For feature set of <span class="math inline">\(p\)</span> dimension, <span class="math inline">\(X = \{X_1,X_2,\dots,X_p\}\)</span>, a hyperplane is defined as:</p>
+<p><span id="eq:pD_hyperplane" class="eqnos"><span class="math display">\[
+\begin{aligned}
+\beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0
+\end{aligned}
+\]</span><span class="eqnos-number">(2)</span></span></p>
+<p><strong>Separating Hyperplanes</strong><br />
+So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes <em>seaparate</em> the classes. Now we try to define the criteria for this separation Refer to mathematical details in 9.3.2 ISLR</p>
+<h2 id="svm-classification">SVM Classification</h2>
+<p>Using Scikit learn code to solve classification problem</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib notebook </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span></code></pre></div>
+<p>A study is used where a mouse if fed medicine, and check whether he is still infected or not</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&#39;../DATA/mouse_viral_study.csv&#39;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">&#39;Med_1_mL&#39;</span>,y <span class="op">=</span> <span class="st">&#39;Med_2_mL&#39;</span>,hue <span class="op">=</span> <span class="st">&#39;Virus Present&#39;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>               data <span class="op">=</span> df) </span></code></pre></div>
+<h2 id="create-a-hyperplane">Create a hyperplane</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">100</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> m<span class="op">*</span>x <span class="op">+</span> b</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x,y,<span class="st">&#39;black&#39;</span>)</span></code></pre></div>
+<p>Here, we plot a line on intuition. But how to get mathemetically optimised classifer?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#SVC?</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">&#39;Virus Present&#39;</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.drop(<span class="st">&#39;Virus Present&#39;</span>,axis <span class="op">=</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SVC(kernel <span class="op">=</span> <span class="st">&#39;linear&#39;</span>,C <span class="op">=</span> <span class="dv">1000</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>model.fit(X,y)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> svm_margin_plot <span class="im">import</span> plot_svm_boundary</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plot_svm_boundary(model,X,y)</span></code></pre></div>
+<p>Next, we will use a small C, which will allow lot of misclassification</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SVC(kernel <span class="op">=</span> <span class="st">&#39;linear&#39;</span>,C <span class="op">=</span> <span class="fl">0.05</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>model.fit(X,y)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plot_svm_boundary(model,X,y)</span></code></pre></div>
+<p><code>C</code> is heavily depdent on data, so we will need to do some cross-validation search to find optimal <code>C</code></p>
+<h2 id="rbf-kernel">RBF Kernel</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SVC(kernel <span class="op">=</span> <span class="st">&#39;rbf&#39;</span>,C<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model.fit(X,y)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plot<span class="op">+</span></span></code></pre></div>
+<p><span id="eq:multiline" class="eqnos"><span class="math display">\[
+\begin{aligned}
+f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz\\
+\theta-1 = 0
+\end{aligned}
+\]</span><span class="eqnos-number">(3)</span></span></p>
+<p>This is eq. <a href="#eq:multiline">3</a></p>
+</body>
+</html>

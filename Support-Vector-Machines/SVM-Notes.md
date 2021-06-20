@@ -98,18 +98,22 @@ Paper: Cortnes (1995)
 
 For a feature space defined by two features $x_1$ and $x_2$, a hyperplane is defined as:
 
-$$\begin{align}
+$$
+\begin{aligned}
 \beta_0 + \beta_1X_1 + \beta_2X_2 = 0
-\end{align}$${#eq:2D_hyperplane}
+\end{aligned}
+$${#eq:2D_hyperplane}
+
 For feature set of $p$ dimension, $X = \{X_1,X_2,\dots,X_p\}$, a hyperplane is defined as:
 
-$$\begin{align}
+$$
+\begin{aligned}
 \beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p = 0
- \end{align}$${#eq:pD_hyperplane}
+\end{aligned}
+$${#eq:pD_hyperplane}
 
 **Separating Hyperplanes**  
 So far, we have defined hyperplanes and what they are. But in context of SVM, the idea is hyperplanes *seaparate* the classes. Now we try to define the criteria for this separation
-
 Refer to mathematical details in 9.3.2 ISLR
 
 ## SVM Classification
@@ -205,11 +209,5 @@ plt.figure()
 plot+
 ```
 
-$$
-\begin{align}
-f(a)={\frac {1}{2\pi i}}\oint _{\gamma }{\frac {f(z)}{z-a}}\,dz\\
-\theta-1 = 0
-\end{align}
-$${#eq:multiline}
 
 This is +@eq:multiline

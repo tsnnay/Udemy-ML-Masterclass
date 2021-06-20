@@ -206,7 +206,7 @@ plot_svm_boundary(model,X,y)
 model = SVC(kernel = 'rbf',C=1)
 model.fit(X,y)
 plt.figure()
-plot+
+#plot()
 ```
 
 
